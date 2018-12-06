@@ -1,0 +1,12 @@
+version: '3'
+services:
+  db:
+    image: mongo
+    container_name: pinguicula-mongo
+    networks:
+      - default
+    ports:
+      - 27017:27017
+networks:
+  default:
+    driver: bridge
