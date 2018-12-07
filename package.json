@@ -26,6 +26,7 @@
     "mime": "^2.4.0",
     "mongoose": "^5.3.14",
     "multer": "^1.4.1",
+    "rxjs": "^6.3.3",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
