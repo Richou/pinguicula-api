@@ -38,6 +38,7 @@ PUBLIC_KEY_FILE=/path/to/public.key
 ## Todo
 
  - Scheduler Jobs
+ - Rewrite with TypeScript (?)
  - Use Dependency Injection
  - Implements Swagger for api documentation and for client generation
  - Units tests
