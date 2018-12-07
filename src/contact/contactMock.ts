@@ -17,7 +17,6 @@ export class ContactMock {
     }
       
     public getMockedData() {
-        console.log(this.mocked);
       return this.mocked
     }
 }

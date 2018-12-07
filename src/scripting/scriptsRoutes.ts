@@ -1,3 +1,4 @@
+import { Request, Response} from 'express';
 import { ScriptsController } from './scriptsController'
 
 export class ScriptsRoutes {
@@ -5,6 +6,6 @@ export class ScriptsRoutes {
 
     }
     public routes(app): void {
-        app.route('/v1/scripts/random').get(this.scriptsCtrl.runRandomPyScript)
+        app.route('/v1/scripts/random').get((request: Request, response: Response) => this.scriptsCtrl.runRandomPyScript(request, response))
     }
 }

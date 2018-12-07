@@ -9,7 +9,7 @@ export class ScriptsController {
 
     }
 
-    public runRandomPyScript = async (request, response) => {
+    public async runRandomPyScript(request, response) {
         try {
           const randomResult = await this.scriptsSrv.runPythonScript(this.scriptFile)
           response.json({ result: randomResult })

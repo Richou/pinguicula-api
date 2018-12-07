@@ -74,7 +74,7 @@ class App {
         return null
       }
     }).unless({
-      path: ['/v1/login', '/v1/users', '/v1/scripts/random']
+      path: ['/v1/login', '/v1/contacts', '/v1/scripts/random']
     }))
 
     this.app.use((error, request, response, next) => {

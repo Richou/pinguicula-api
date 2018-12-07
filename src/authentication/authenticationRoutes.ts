@@ -1,4 +1,5 @@
-import { AuthenticationController } from './authentication.controller';
+import { Request, Response} from 'express';
+import { AuthenticationController } from './authenticationController';
 
 export class AuthenticationRoutes {
 
@@ -7,6 +8,6 @@ export class AuthenticationRoutes {
     }
 
     public routes(app): void {
-        app.route('/v1/login').post(this.authenticationCtrl.login)
+        app.route('/v1/login').post((request: Request, response: Response) => this.authenticationCtrl.login(request, response))
     }
 }

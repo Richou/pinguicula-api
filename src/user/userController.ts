@@ -1,5 +1,5 @@
 const log4js = require('log4js')
-import * as fs from 'fs'
+import fs = require('fs')
 import { UserService } from './userService';
 
 const logger = log4js.getLogger('UserController')
@@ -10,7 +10,7 @@ export class UserController {
 
     }
 
-    public createUser = async(request, response) => {
+    public async createUser(request, response) {
       try {
         logger.info('Creating user')
         await this.userSrv.createUser(request.body)
@@ -21,7 +21,7 @@ export class UserController {
       }
     }
 
-    public editUser = async(request, response) => {
+    public async editUser(request, response) {
         try {
             await this.userSrv.editUser(request.params.id, request.body)
             response.json({ message: 'OK' })
@@ -31,7 +31,7 @@ export class UserController {
       }
     }
       
-    public deleteUser = async (request, response) => {
+    public async deleteUser(request, response) {
         try {
           await this.userSrv.deleteUserByUid(request.params.id)
           response.json({ message: 'OK' })
@@ -41,7 +41,7 @@ export class UserController {
         }
       }
       
-    public getUser = async (request, response) => {
+    public async getUser(request, response) {
         try {
           const fetchedUser = await this.userSrv.getUserByUid(request.params.id)
           response.json(fetchedUser)

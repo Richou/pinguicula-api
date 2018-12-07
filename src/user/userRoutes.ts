@@ -1,3 +1,4 @@
+import { Request, Response} from 'express';
 import { UserController } from './userController';
 import { UploadUtil } from '../common/uploadUtil';
 
@@ -8,12 +9,12 @@ export class UserRoutes {
     }
 
     public routes(app): void {
-        app.route('/v1/users').post(this.userCtrl.createUser)
-        app.route('/v1/users/:id').get(this.userCtrl.getUser)
-        app.route('/v1/users/:id').put(this.userCtrl.editUser)
-        app.route('/v1/users/:id').delete(this.userCtrl.deleteUser)
-        app.route('/v1/users/:id/avatar').post(this.uploadUtil.avatarUpload().single('avatar'), this.userCtrl.uploadAvatar)
-        app.route('/v1/users/:id/avatar').get(this.userCtrl.retreiveAvatar)
+        app.route('/v1/users').post((request: Request, response: Response) => this.userCtrl.createUser(request, response))
+        app.route('/v1/users/:id').get((request: Request, response: Response) => this.userCtrl.getUser(request, response))
+        app.route('/v1/users/:id').put((request: Request, response: Response) => this.userCtrl.editUser(request, response))
+        app.route('/v1/users/:id').delete((request: Request, response: Response) => this.userCtrl.deleteUser(request, response))
+        app.route('/v1/users/:id/avatar').post(this.uploadUtil.avatarUpload().single('avatar'), (request: Request, response: Response) => this.userCtrl.uploadAvatar(request, response))
+        app.route('/v1/users/:id/avatar').get((request: Request, response: Response) => this.userCtrl.retreiveAvatar(request, response))
     }
     
 }

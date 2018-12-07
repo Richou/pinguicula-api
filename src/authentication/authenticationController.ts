@@ -9,7 +9,7 @@ export class AuthenticationController {
 
     }
 
-    public login = async (request, response) => {
+    public async login(request, response) {
         try {
           const logged = await this.authenticationSrv.doLogin(request.body)
           const token = this.authenticationSrv.generateJwtForUser(logged)
