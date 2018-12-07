@@ -10,7 +10,7 @@ export class UserController {
 
     }
 
-    public async createUser(request, response) {
+    public createUser = async(request, response) => {
       try {
         logger.info('Creating user')
         await this.userSrv.createUser(request.body)
@@ -21,7 +21,7 @@ export class UserController {
       }
     }
 
-    public async editUser(request, response) {
+    public editUser = async(request, response) => {
         try {
             await this.userSrv.editUser(request.params.id, request.body)
             response.json({ message: 'OK' })
@@ -31,7 +31,7 @@ export class UserController {
       }
     }
       
-    public async deleteUser(request, response) {
+    public deleteUser = async (request, response) => {
         try {
           await this.userSrv.deleteUserByUid(request.params.id)
           response.json({ message: 'OK' })
