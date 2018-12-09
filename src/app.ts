@@ -1,8 +1,8 @@
 import bodyParser = require("body-parser");
-import {Application} from "express";
 import express = require("express");
 import expressJwt = require("express-jwt");
 import log4js = require("log4js");
+import {Application} from "express";
 import {
   APPLICATION_LOG_LEVEL,
   CSV_FILE,
@@ -91,8 +91,8 @@ class App {
         return null;
       },
       secret: this.jwtUtil.getPublicKey(),
-    }).unless({
-      path: ["/v1/login", "/v1/contacts", "/v1/scripts/random"],
+    }).unless((request: Request) => {
+      return request.url === "/v1/login" || (request.url === "/v1/users" && request.method === "POST") || request.url === "/v1/contacts" || request.url === "/v1/scripts/random"
     }));
 
     this.app.use((error, request, response, next) => {

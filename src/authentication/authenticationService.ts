@@ -15,6 +15,7 @@ export class AuthenticationService {
   }
 
   public async doLogin(credentials: Credentials): Promise<UserClaims> {
+    this.logger.info("Trying to login");
     const fromDb = await User.findOne({email: credentials.email});
     if (fromDb !== null && fromDb !== undefined && await BcryptUtil.comparePassword(fromDb.password, credentials.password)) {
       return {

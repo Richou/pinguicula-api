@@ -1,7 +1,7 @@
 import fs = require("fs");
 import {getLogger} from "log4js";
 import {getType} from "mime";
-import uuid from "uuid/v4";
+import {v4} from "uuid";
 import {BcryptUtil} from "../common/bcryptUtil";
 import {UploadUtil} from "../common/uploadUtil";
 import {NotFoundError} from "../errors/notFoundError";
@@ -21,7 +21,7 @@ export class UserService {
     const toSave = {
       email: user.email,
       password: hashedPassword,
-      uid: uuid(),
+      uid: v4(),
       username: user.username,
     };
     const userEntity = new User(toSave);
