@@ -1,13 +1,12 @@
-import { spawn } from 'child_process'
-import Promise = require('bluebird')
+import {spawn} from "child_process";
 
-export class ScriptsService{
+export class ScriptsService {
 
-    public runPythonScript(scriptfile) {
-      return new Promise((resolve, reject) => {
-        const pyProg = spawn('python', [scriptfile])
-        pyProg.stdout.on('data', data => resolve(data.toString().trim()))
-        pyProg.stderr.on('data', data => reject(data.toString()))
-      })
-    }
+  public runPythonScript(scriptFile: string) {
+    return new Promise((resolve, reject) => {
+      const pyProg = spawn("python", [scriptFile]);
+      pyProg.stdout.on("data", (data) => resolve(data.toString().trim()));
+      pyProg.stderr.on("data", (data) => reject(data.toString()));
+    });
+  }
 }

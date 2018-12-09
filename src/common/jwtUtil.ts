@@ -1,30 +1,35 @@
-import jwt = require('jsonwebtoken');
-import fs = require('fs');
+import fs = require("fs");
+import {sign} from "jsonwebtoken";
 
-export class JwtUtil{
-    private keypair;
-    private publicKey;
-    private privateKey;
+export interface KeyPair {
+  publicKeyFile: string;
+  privateKeyFile: string;
+}
 
-    constructor(keypair) {
-        this.keypair = keypair
-        this.initialize();
-    }
+export class JwtUtil {
+  private keypair: KeyPair;
+  private publicKey: Buffer;
+  private privateKey: Buffer;
 
-    public initialize() {
-        this.publicKey = fs.readFileSync(this.keypair.publicKeyFile);
-        this.privateKey = fs.readFileSync(this.keypair.privateKeyFile);
-    }
+  constructor(keypair: KeyPair) {
+    this.keypair = keypair;
+    this.initialize();
+  }
 
-    public createToken(uid, email) {
-        return jwt.sign({
-          uid: uid, email: email
-        }, this.privateKey, {
-          algorithm: 'RS512'
-        })
-      }
+  public initialize() {
+    this.publicKey = fs.readFileSync(this.keypair.publicKeyFile);
+    this.privateKey = fs.readFileSync(this.keypair.privateKeyFile);
+  }
 
-    public getPublicKey() {
-        return this.publicKey;
-    }
+  public createToken(uid, email) {
+    return sign({
+      email, uid,
+    }, this.privateKey, {
+      algorithm: "RS512",
+    });
+  }
+
+  public getPublicKey(): Buffer {
+    return this.publicKey;
+  }
 }

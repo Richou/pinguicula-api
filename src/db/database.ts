@@ -1,16 +1,17 @@
-import mongoose = require('mongoose');
+import mongoose = require("mongoose");
+import {Mongoose} from "mongoose";
 
 const options = {
-    useNewUrlParser: true,
-    poolSize: 10
-  }
+  poolSize: 10,
+  useNewUrlParser: true,
+};
 
 export class Database {
-    constructor(private mongoUrl: String) {
-        this.mongoSetup()
-    }
+  constructor(private mongoUrl: string) {
 
-    private mongoSetup() {
-        mongoose.connect(this.mongoUrl, options);
-    }
+  }
+
+  public mongoSetup(): Promise<Mongoose> {
+    return mongoose.connect(this.mongoUrl, options);
+  }
 }

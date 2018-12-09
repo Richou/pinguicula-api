@@ -1,28 +1,33 @@
-import mongoose = require('mongoose');
-import { UserSchema } from '../user/userModel';
-import { JwtUtil } from '../common/jwtUtil';
-import { BcryptUtil } from '../common/bcryptUtil';
-
-const User = mongoose.model('User', UserSchema)
+import {getLogger} from "log4js";
+import {APPLICATION_LOG_LEVEL} from "../../config";
+import {BcryptUtil} from "../common/bcryptUtil";
+import {JwtUtil} from "../common/jwtUtil";
+import {BadCredentialsError} from "../errors/badCredentialsError";
+import {User} from "../user/userModel";
+import {Credentials, UserClaims} from "./authenticationModel";
 
 export class AuthenticationService {
-    constructor(private jwtUtil:JwtUtil, private bcryptUtil: BcryptUtil) {
 
-    }
+  private readonly logger = getLogger("AuthenticationService");
 
-    public async doLogin(credentials) {
-        const fromDb = await User.findOne({ email: credentials.email })
-        if (fromDb !== null && fromDb !== undefined && await this.bcryptUtil.comparePassword(fromDb.password, credentials.password)) {
-          return {
-            uid: fromDb.uid,
-            username: fromDb.username,
-            email: fromDb.email
-          }
-        }
-        throw new Error('BAD_CREDENTIALS')
-      }
-      
-    public generateJwtForUser(user) {
-      return this.jwtUtil.createToken(user.uid, user.email)
+  constructor(private jwtUtil: JwtUtil) {
+    this.logger.level = APPLICATION_LOG_LEVEL;
+  }
+
+  public async doLogin(credentials: Credentials): Promise<UserClaims> {
+    const fromDb = await User.findOne({email: credentials.email});
+    if (fromDb !== null && fromDb !== undefined && await BcryptUtil.comparePassword(fromDb.password, credentials.password)) {
+      return {
+        email: fromDb.email,
+        uid: fromDb.uid,
+        username: fromDb.username,
+      };
     }
+    this.logger.warn("User Not found or bad credentials");
+    throw new BadCredentialsError("Bad Credentials.");
+  }
+
+  public generateJwtForUser(user: UserClaims) {
+    return this.jwtUtil.createToken(user.uid, user.email);
+  }
 }
