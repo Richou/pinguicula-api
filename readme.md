@@ -20,9 +20,9 @@ $ sudo docker-compose up -d
 
 Create key pair :
 
-http://www.csfieldguide.org.nz/en/interactives/rsa-key-generator/index.html
-
-And save the private and the public key.
+```bash
+$ openssl req -new -newkey rsa:2048 -nodes -x509 -keyout /path/to/private.key -out /path/to/public.key
+```
 
 Create a .env file with : 
 
