@@ -8,7 +8,3 @@ export interface UserClaims {
   email: string;
   username: string;
 }
-
-export interface Token {
-  token: string;
-}

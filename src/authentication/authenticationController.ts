@@ -1,8 +1,8 @@
 import {Request, Response} from "express";
-import {getLogger, Logger} from "log4js";
+import {getLogger} from "log4js";
 import {APPLICATION_LOG_LEVEL} from "../../config";
 import {BadCredentialsError} from "../errors/badCredentialsError";
-import {Token, UserClaims} from "./authenticationModel";
+import {UserClaims} from "./authenticationModel";
 import {AuthenticationService} from "./authenticationService";
 
 export class AuthenticationController {
