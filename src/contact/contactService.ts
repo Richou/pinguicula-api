@@ -1,8 +1,7 @@
-import {Contact, ContactRequest, ContactCriteria} from "./contactModel";
+import {Contact, ContactCriteria, ContactRequest} from "./contactModel";
 import {getLogger} from "log4js";
 import {APPLICATION_LOG_LEVEL} from "../../config";
 import * as v4 from "uuid/v4";
-import {User} from "../user/userModel";
 import {NotFoundError} from "../errors/notFoundError";
 
 export class ContactService {
@@ -15,7 +14,8 @@ export class ContactService {
 
   public async getContactsByCriteria(criteria: ContactCriteria): Promise<Array<Contact>> {
     this.logger.info("Trying to get", criteria);
-    return await Contact.find();
+    const firstNameRegex = new RegExp(criteria.firstname, "i");
+    return await Contact.find({firstName: firstNameRegex});
   }
 
   public async doCreateContact(contactReq: ContactRequest): Promise<Contact> {

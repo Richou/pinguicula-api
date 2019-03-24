@@ -2,7 +2,6 @@ import bodyParser = require("body-parser");
 import express = require("express");
 import expressJwt = require("express-jwt");
 import log4js = require("log4js");
-import {Application} from "express";
 import {
   APPLICATION_LOG_LEVEL,
   DATABASE_URL,
@@ -13,7 +12,6 @@ import {
 import {AuthenticationController} from "./authentication/authenticationController";
 import {AuthenticationRoutes} from "./authentication/authenticationRoutes";
 import {AuthenticationService} from "./authentication/authenticationService";
-import {BcryptUtil} from "./common/bcryptUtil";
 import {JwtUtil} from "./common/jwtUtil";
 import {UploadUtil} from "./common/uploadUtil";
 import {ContactController} from "./contact/contactController";
@@ -31,7 +29,6 @@ class App {
   private readonly app: express.Application;
 
   private jwtUtil = new JwtUtil({publicKeyFile: PUBLIC_KEY_FILE, privateKeyFile: PRIVATE_KEY_FILE});
-  private bcryptUtil = new BcryptUtil();
 
   // Contact Object
   private contactSrv = new ContactService();
@@ -40,7 +37,7 @@ class App {
 
   // User Object
   private uploadUtil = new UploadUtil(PHOTO_DIR_PATH);
-  private userSrv = new UserService(this.bcryptUtil, this.uploadUtil);
+  private userSrv = new UserService(this.uploadUtil);
   private userCtrl = new UserController(this.userSrv);
   private userRoutes = new UserRoutes(this.userCtrl, this.uploadUtil);
 
@@ -58,7 +55,7 @@ class App {
     this.routes();
   }
 
-  public getApplication(): Application {
+  public getApplication(): express.Application {
     return this.app;
   }
 
