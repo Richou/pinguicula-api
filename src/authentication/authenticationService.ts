@@ -1,6 +1,6 @@
 import {getLogger} from "log4js";
 import {APPLICATION_LOG_LEVEL} from "../../config";
-import {BcryptUtil} from "../common/bcryptUtil";
+import {comparePassword} from "../common/bcryptUtil";
 import {JwtUtil} from "../common/jwtUtil";
 import {BadCredentialsError} from "../errors/badCredentialsError";
 import {User} from "../user/userModel";
@@ -17,7 +17,7 @@ export class AuthenticationService {
   public async doLogin(credentials: Credentials): Promise<UserClaims> {
     this.logger.info("Trying to login");
     const fromDb = await User.findOne({email: credentials.email});
-    if (fromDb !== null && fromDb !== undefined && await BcryptUtil.comparePassword(fromDb.password, credentials.password)) {
+    if (fromDb !== null && fromDb !== undefined && await comparePassword(fromDb.password, credentials.password)) {
       return {
         email: fromDb.email,
         uid: fromDb.uid,

@@ -2,7 +2,7 @@ import fs = require("fs");
 import {getLogger} from "log4js";
 import {getType} from "mime";
 import {v4} from "uuid";
-import {BcryptUtil} from "../common/bcryptUtil";
+import {hashPassword} from "../common/bcryptUtil";
 import {UploadUtil} from "../common/uploadUtil";
 import {NotFoundError} from "../errors/notFoundError";
 import {User, UserAvatar} from "./userModel";
@@ -12,12 +12,12 @@ const ROUND_SALT = 10;
 export class UserService {
   private readonly logger = getLogger("UserService");
 
-  constructor(private bcryptUtil: BcryptUtil, private uploadUtil: UploadUtil) {
+  constructor(private uploadUtil: UploadUtil) {
 
   }
 
   public async createUser(user) {
-    const hashedPassword = await BcryptUtil.hashPassword(user.password, ROUND_SALT);
+    const hashedPassword = await hashPassword(user.password, ROUND_SALT);
     const toSave = {
       email: user.email,
       password: hashedPassword,

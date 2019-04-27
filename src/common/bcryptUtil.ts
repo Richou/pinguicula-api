@@ -1,11 +1,9 @@
 import bcrypt = require("bcrypt");
 
-export class BcryptUtil {
-  public static hashPassword(password, saltRounds) {
-    return bcrypt.hash(password, saltRounds);
-  }
+export const hashPassword = (password, saltRounds) => {
+  return bcrypt.hash(password, saltRounds);
+};
 
-  public static comparePassword(hashed, plaintext) {
-    return bcrypt.compare(plaintext, hashed);
-  }
-}
+export const comparePassword = (hashed, plaintext) => {
+  return bcrypt.compare(plaintext, hashed);
+};
